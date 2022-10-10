@@ -1,2 +1,2 @@
 # zmqpoc
-zmqxyapapi poc
+poc of a zmq communications over yapapi

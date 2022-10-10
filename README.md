@@ -19,3 +19,17 @@ pip install -U pip poetry
 poetry install
 
 ```
+
+## running
+
+### the server
+
+```
+python zmqpoc/plain_server.py
+```
+
+### the client
+
+```
+python zmqpoc/plain_client.py
+```

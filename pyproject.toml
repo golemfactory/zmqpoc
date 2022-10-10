@@ -10,12 +10,51 @@ readme = "README.md"
 python = "^3.9"
 yapapi = {git = "https://github.com/golemfactory/yapapi.git"}
 pyzmq = "^24.0.1"
+tqdm = "^4.64.1"
 
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.10.0"
 mypy = "^0.982"
 flake8 = "^5.0.4"
+poethepoet = "^0.16.4"
+liccheck = "^0.7.2"
+pytest = "^7.1.3"
+
+[tool.liccheck]
+authorized_licenses = [
+  "bsd",
+  "new bsd",
+  "bsd license",
+  "apache 2",
+  "apache",
+  "Apache Software",
+  "MPL-2.0",
+  "Mozilla Public License 2.0 (MPL 2.0)",
+  "MIT",
+  "LGPL",
+  "LGPL-3.0-or-later",
+  "GNU Lesser General Public License v3 or later (LGPLv3+)",
+  "GNU Lesser General Public License v3 (LGPLv3)",
+  "Python Software Foundation",
+  "ISC",
+  "ISC License (ISCL)",
+]
+unauthorized_licenses = [
+  "gpl v3"
+]
+
+[tool.poe.tasks]
+lint = "flake8"
+codestyle = "black --check --diff ."
+typecheck  = "mypy --install-types --non-interactive --ignore-missing-imports --check-untyped-defs --warn-unused-ignores --show-error-codes ."
+_liccheck_export = "poetry export -f requirements.txt -o .requirements.txt"
+_liccheck_verify = "liccheck -r .requirements.txt"
+liccheck = ["_liccheck_export", "_liccheck_verify"]
+check = ["lint", "codestyle", "typecheck", "liccheck"]
+unittest = "pytest -sv"
+test = ["unittest", "check"]
+
 
 [build-system]
 requires = ["poetry-core"]

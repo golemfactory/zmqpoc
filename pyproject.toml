@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "zmqpoc"
+version = "0.0.0"
+description = "zmq comms over yapapi poc"
+authors = ["shadeofblue <blue@golem.network>"]
+license = "GPLv3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+yapapi = {git = "https://github.com/golemfactory/yapapi.git"}
+pyzmq = "^24.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.10.0"
+mypy = "^0.982"
+flake8 = "^5.0.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -25,11 +25,17 @@ poetry install
 ### the server
 
 ```
-python zmqpoc/plain_server.py
+python zmqpoc/server.py --port 4242
+```
+
+### the forwarder
+
+```
+python zmqpoc/socket_forwarder.py --listen-port 6767 --send-port 4242
 ```
 
 ### the client
 
 ```
-python zmqpoc/plain_client.py
+python zmqpoc/client.py --port 6767
 ```

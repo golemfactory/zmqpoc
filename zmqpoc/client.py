@@ -38,10 +38,7 @@ async def benchmark_comms(
             raise Exception(f"Transmission failure after {t.last_print_n} bytes")
 
     t.close()
-    print(
-        f"Sent {t.last_print_n} bytes in "
-        f"{timedelta(seconds=t.last_print_t - t.start_t)}"
-    )
+    print(f"Sent {t.n} bytes in {timedelta(seconds=t.last_print_t - t.start_t)}")
 
 
 parser = argparse.ArgumentParser("ZeroMQ echo client")

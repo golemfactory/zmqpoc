@@ -1,5 +1,5 @@
 # zmqpoc
-poc of a zmq communications over yapapi
+poc of zmq communications over yapapi
 
 ## prerequisites
 

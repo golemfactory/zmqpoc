@@ -44,6 +44,14 @@ python-versions = ">=3.6"
 frozenlist = ">=1.1.0"
 
 [[package]]
+name = "ansicolors"
+version = "1.1.8"
+description = "ANSI colors for Python"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "async-exit-stack"
 version = "1.0.1"
 description = "AsyncExitStack backport for Python 3.5+"
@@ -597,7 +605,7 @@ integration-tests = ["goth (>=0.13,<0.14)", "pexpect (>=4.8.0,<5.0.0)"]
 type = "git"
 url = "https://github.com/golemfactory/yapapi.git"
 reference = "HEAD"
-resolved_reference = "959e7b0c2a2dabfb8e05f147c2d2832bb11632bc"
+resolved_reference = "e9484c2ce02975a9a49338b1e9f48a22c4e78c79"
 
 [[package]]
 name = "yarl"
@@ -614,7 +622,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "5f1e90b3c0b685616ffa2b1fff656c27c3481d32dac065e8f194d1fcfbdc9329"
+content-hash = "fd24bd4f514a4f97024ef88bf3e8504845e9244e721337655b491678cdbc0a62"
 
 [metadata.files]
 aiohttp = [
@@ -713,6 +721,10 @@ aiohttp-sse-client = [
 aiosignal = [
     {file = "aiosignal-1.2.0-py3-none-any.whl", hash = "sha256:26e62109036cd181df6e6ad646f91f0dcfd05fe16d0cb924138ff2ab75d64e3a"},
     {file = "aiosignal-1.2.0.tar.gz", hash = "sha256:78ed67db6c7b7ced4f98e495e572106d5c432a93e1ddd1bf475e1dc05f5b7df2"},
+]
+ansicolors = [
+    {file = "ansicolors-1.1.8-py2.py3-none-any.whl", hash = "sha256:00d2dde5a675579325902536738dd27e4fac1fd68f773fe36c21044eb559e187"},
+    {file = "ansicolors-1.1.8.zip", hash = "sha256:99f94f5e3348a0bcd43c82e5fc4414013ccc19d70bd939ad71e0133ce9c372e0"},
 ]
 async-exit-stack = [
     {file = "async_exit_stack-1.0.1-py3-none-any.whl", hash = "sha256:9b43b17683b3438f428ef3bbec20689f5abbb052aa4b564c643397330adfaa99"},

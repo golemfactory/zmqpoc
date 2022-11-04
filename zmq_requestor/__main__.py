@@ -5,8 +5,8 @@ from datetime import timedelta
 
 from yapapi import Golem
 from yapapi.services import Cluster, ServiceState
+from yapapi.contrib.service.socket_proxy import SocketProxy
 
-from .proxy import SocketProxy
 from .service import ZMQService
 from .util import build_parser, run_yapapi, print_env_info, utcnow
 
@@ -53,8 +53,8 @@ async def main(subnet_tag, payment_driver, payment_network, port, verbose):
 
             print(colors.cyan("ZMQ server started"))
 
-            proxy = SocketProxy(cluster.instances[0], port, verbose=verbose)
-            await proxy.run()
+            proxy = SocketProxy(ports=[port])
+            await proxy.run(cluster)
 
             print(colors.cyan(f"Listening on local port: {port}"))
 

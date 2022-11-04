@@ -1,9 +1,9 @@
 # zmqpoc
-poc of a zmq communications over yapapi
+poc of zmq communications over yapapi and Golem Network
 
 ## prerequisites
 
-### python >= 3.8
+### python >= 3.9
 
 ### libzmq3
 

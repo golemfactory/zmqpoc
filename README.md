@@ -19,17 +19,14 @@ In order to run on Golem, one needs to install the yagna daemon.
 
 Please follow the [requestor's introduction on running tasks on Golem](https://handbook.golem.network/requestor-tutorials/flash-tutorial-of-requestor-development).
 
-Note, though, that the current, stable version of yagna (0.10) has issues with larger
-payloads over the VPN. To alleviate those issues, please use the testing release:
-
 ```
-curl -ksSf https://join.golem.network/as-requestor | YA_INSTALLER_CORE=v0.11.0 bash -
+curl -ksSf https://join.golem.network/as-requestor | bash -
 ```
 
 and then, when running yagna, specify:
 
 ```
-YA_NET_RELAY_HOST=yacn2a.dev.golem.network:7477 yagna service run
+yagna service run
 ```
 
 
@@ -95,13 +92,13 @@ initializing the payment driver and about adding your application key as
 Then, launch the requestor as:
 
 ```bash
-python -m zmq_requestor --subnet-tag hybrid
+python -m zmq_requestor
 ```
 
 or, if you wish to see more debug info about the performed connections:
 
 ```bash
-python -m zmq_requestor --subnet-tag hybrid --verbose
+python -m zmq_requestor --verbose
 ```
 
 for the full usage, see:

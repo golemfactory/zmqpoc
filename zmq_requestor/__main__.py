@@ -10,8 +10,15 @@ from yapapi.contrib.service.socket_proxy import SocketProxy
 from .service import ZMQService
 from .util import build_parser, run_yapapi, print_env_info, utcnow
 
+from metrics import Metrics
+
 STARTING_TIMEOUT = timedelta(minutes=4)
 
+
+m = Metrics("zmq_requestor", readonly=False)
+m.load()
+m["status"] = "init"
+m.save()
 
 def cluster_starting(cluster: Cluster):
     return any(
@@ -27,6 +34,9 @@ async def main(subnet_tag, payment_driver, payment_network, port, verbose):
         payment_driver=payment_driver,
         payment_network=payment_network,
     ) as golem:
+        m["status"] = "starting"
+        m.save()
+
         print_env_info(golem)
 
         network = await golem.create_network("192.168.0.1/24")
@@ -46,6 +56,9 @@ async def main(subnet_tag, payment_driver, payment_network, port, verbose):
                 await asyncio.sleep(5)
 
             if cluster_starting(cluster):
+                m["status"] = "failed"
+                m.save()
+
                 raise Exception(
                     f"Failed to start {cluster} instances "
                     f"after {STARTING_TIMEOUT.total_seconds()} seconds"
@@ -58,6 +71,10 @@ async def main(subnet_tag, payment_driver, payment_network, port, verbose):
 
             print(colors.cyan(f"Listening on local port: {port}"))
 
+            m["status"] = "started"
+            m["port"] = port
+            m.save()
+
             # wait until Ctrl-C
 
             while True:
@@ -68,6 +85,9 @@ async def main(subnet_tag, payment_driver, payment_network, port, verbose):
                     break
 
             # perform the shutdown of the local http server and the service cluster
+
+            m["status"] = "terminated"
+            m.save()
 
             await proxy.stop()
             print(colors.cyan("ZMQ server stopped"))
@@ -82,7 +102,6 @@ async def main(subnet_tag, payment_driver, payment_network, port, verbose):
 
 
 if __name__ == "__main__":
-
     parser = build_parser("ZeroMQ example")
     parser.add_argument(
         "--port",

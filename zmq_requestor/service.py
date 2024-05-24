@@ -36,32 +36,3 @@ class ZMQService(SocketProxyService):
             f"--port {self.remote_ports[0]} > out 2> err &",
         )
         yield script
-
-    async def run(self):
-        assert self._ctx
-        while True:
-            await asyncio.sleep(5)
-            script = self._ctx.new_script()
-            out_result = script.run(
-                "/bin/bash",
-                "-c",
-                "cat /golem/run/out",
-            )
-            err_result = script.run(
-                "/bin/bash",
-                "-c",
-                "cat /golem/run/err",
-            )
-            yield script
-
-            out = (await out_result).stdout
-            err = (await err_result).stdout
-
-            if out:
-                print(f"out: {colors.magenta(out)}")
-            if err:
-                print(f"err: {colors.red(err)}")
-
-    async def reset(self):
-        # We don't have to do anything when the service is restarted
-        pass

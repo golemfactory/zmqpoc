@@ -24,6 +24,8 @@ REQUESTOR_WAIT_DELAY: Final = timedelta(seconds=5)
 REQUESTOR_WAIT_TIMEOUT: Final = timedelta(minutes=2)
 
 async def wait_for_requestor(quiet: bool, timeout: timedelta = REQUESTOR_WAIT_TIMEOUT):
+    if not quiet:
+        print("Waiting for requestor...")
     start_time = datetime.now()
     while datetime.now() < start_time + timeout:
         requestor_metrics.load()
@@ -68,6 +70,8 @@ async def benchmark_comms(
 
     socket = context.socket(zmq.REQ)
     socket.connect(f"tcp://localhost:{requestor_metrics['port']}")
+    socket.setsockopt(zmq.SNDTIMEO, int(1000 * measurement_time.total_seconds()))
+    socket.setsockopt(zmq.RCVTIMEO, int(1000 * measurement_time.total_seconds()))
 
     data: bytes = random.randbytes(buffer_len * 1024)
 
@@ -75,8 +79,12 @@ async def benchmark_comms(
     progress_bytes = tqdm(unit="B", unit_scale=True, file=open(os.devnull, "w") if quiet else sys.stdout)
 
     while datetime.now() - start_time < measurement_time:
-        await socket.send(data)
-        response = await socket.recv()
+        try:
+            await socket.send(data, copy=False)
+            response_frame = await socket.recv(copy=False)
+            response = response_frame.buffer
+        except zmq.ZMQError:
+            response = None
 
         if response == data:
             progress_time.update((datetime.now() - last_update).total_seconds())
@@ -99,6 +107,7 @@ async def benchmark_comms(
 
     if report["elapsed_time"]:
         report["transmission_speed"] = report["transmitted_bytes"] / report["elapsed_time"]
+        report["success"] = True
 
     return report
 

@@ -26,6 +26,8 @@ def cluster_starting(cluster: Cluster):
         for i in cluster.instances
     )
 
+def cluster_running(cluster: Cluster):
+    return all(i.state == ServiceState.running for i in cluster.instances)
 
 async def main(subnet_tag, payment_driver, payment_network, port, verbose):
     async with Golem(
@@ -77,7 +79,7 @@ async def main(subnet_tag, payment_driver, payment_network, port, verbose):
 
             # wait until Ctrl-C
 
-            while True:
+            while cluster_running(cluster):
                 print(cluster.instances)
                 try:
                     await asyncio.sleep(10)
@@ -115,6 +117,8 @@ if __name__ == "__main__":
         help="Show debug messages",
     )
     args = parser.parse_args()
+
+    m["log_file"] = args.log_file
 
     run_yapapi(
         main(

@@ -11,8 +11,7 @@ python = "^3.9"
 pyzmq = "^24.0.1"
 tqdm = "^4.64.1"
 ansicolors = "^1.1.8"
-yapapi = "^0.12.0"
-metrics = { path = "/scripts/metrics", develop = true }
+yapapi = "^0.13.0"
 
 
 [tool.poetry.group.dev.dependencies]
